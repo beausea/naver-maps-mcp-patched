@@ -1,0 +1,39 @@
+{
+  "name": "@devyhan/naver-maps-mcp",
+  "version": "1.2.2",
+  "description": "MCP 서버 for 네이버 지도 API",
+  "main": "index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.js"
+    }
+  },
+  "scripts": {
+    "start": "node web-server.js",
+    "dev": "nodemon web-server.js",
+    "test": "node tests/test.js"
+  },
+  "bin": {
+    "naver-maps-mcp": "./bin/cli.js"
+  },
+  "keywords": [
+    "MCP",
+    "Maps",
+    "Naver",
+    "API"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.7.0",
+    "axios": "^1.6.8",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
