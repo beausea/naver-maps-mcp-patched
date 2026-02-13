@@ -1,8 +1,32 @@
-# Naver Maps MCP Server
+# Naver Maps MCP Server (Patched)
+
+> **이 저장소는 [`@devyhan/naver-maps-mcp` v1.2.2](https://www.npmjs.com/package/@devyhan/naver-maps-mcp)의 버그를 수정한 패치 버전입니다.**
 
 [![npm version](https://img.shields.io/npm/v/@devyhan/naver-maps-mcp.svg)](https://www.npmjs.com/package/@devyhan/naver-maps-mcp)
 
 A Model Context Protocol (MCP) server that integrates with Naver Maps API, allowing AI applications like Claude to utilize geographical services such as geocoding, reverse geocoding, and route searching without direct API access.
+
+## 패치 내용 (Changes from original)
+
+### 1. Bug Fix: `geocode()` 함수 return 누락 수정
+
+**문제**: `src/api/naverMapsClient.js`의 `geocode()` 함수에서 API 호출 성공 후 `response.data`를 반환하지 않아 `undefined`가 반환됨. 이로 인해 MCP 프로토콜 오류 발생:
+
+```
+MCP error -32602: Invalid tools/call result: Invalid input: expected string, received undefined
+```
+
+**원인**: `reverseGeocode()` 등 다른 함수에는 `return response.data;`가 존재하지만, `geocode()` 함수에만 누락됨.
+
+**수정**: `src/api/naverMapsClient.js` geocode 함수의 try 블록 끝에 `return response.data;` 추가.
+
+### 2. Enhancement: `traavoidcaronly` 경로 옵션 추가
+
+**문제**: 네이버 클라우드 API 공식 문서에 명시된 `traavoidcaronly`(자동차전용도로 회피 우선) 옵션이 모든 경로 탐색 도구의 enum에서 누락됨.
+
+**수정**: `src/server.js`의 모든 경로 탐색 도구(`getDirections`, `getDirectionsByNaturalLanguage`, `getDirectionsWithWaypointsByNaturalLanguage`, `getDirectionsWithWaypoints`)에 `traavoidcaronly` 옵션 추가.
+
+---
 
 ## Core Concepts
 
